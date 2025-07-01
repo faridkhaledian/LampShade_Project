@@ -30,6 +30,7 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
 
                 Id = x.Id,
                 Name = x.Name,
+                Description = x.Description,
                 Keywords = x.Keywords,
                 MetaDescription = x.MetaDescription,
                 Picture = x.Picture,
@@ -40,6 +41,20 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
 
             }).FirstOrDefault(x => x.Id == id);
 
+
+
+        }
+
+        public List<ProductCategoryViewModel> GetProductCategories()
+        {
+
+            return _context.ProductCategories.Select(x => new ProductCategoryViewModel
+            {
+                Id = x.Id,
+                Name = x.Name
+
+
+            }).ToList();
 
 
         }

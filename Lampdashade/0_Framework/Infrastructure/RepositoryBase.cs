@@ -49,7 +49,7 @@ namespace _0_Framework.Infrastructure
 
         public void SaveChange()
         {
-            
+            _context.SaveChanges();
 
         }
     }

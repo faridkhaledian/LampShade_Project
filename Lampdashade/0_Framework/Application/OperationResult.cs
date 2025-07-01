@@ -8,7 +8,7 @@ namespace _0_Framework.Application
 {
     public class OperationResult
     {
-
+        
         public bool IsSucceddd { get; set; }
         public string Message { get; set; }
 

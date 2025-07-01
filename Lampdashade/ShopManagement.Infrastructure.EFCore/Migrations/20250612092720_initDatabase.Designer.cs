@@ -12,7 +12,7 @@ using ShopManagement.Infrastructure.EFCore;
 namespace ShopManagement.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20250516153234_initDatabase")]
+    [Migration("20250612092720_initDatabase")]
     partial class initDatabase
     {
         /// <inheritdoc />

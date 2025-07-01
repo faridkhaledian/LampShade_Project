@@ -7,11 +7,12 @@ using _0_Framework.Application;
 
 namespace ShopManagement.Application.Contracts.ProductCategory
 {
-    public interface IProductCategoryApplication
+    public interface IProductPitureApplication
     {
         OperationResult Create(CreateProductCategory command);
         OperationResult Edit(EditProductCategory command);
         EditProductCategory GetDetails(long id);
+        List<ProductCategoryViewModel> GetProductCategories();
 
         List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel  );
 

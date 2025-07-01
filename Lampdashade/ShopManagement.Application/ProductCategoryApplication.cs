@@ -4,7 +4,7 @@ using ShopManagement.Domain.ProductCategoryAgg;
 
 namespace ShopManagement.Application
 {
-    public class ProductCategoryApplication:IProductCategoryApplication
+    public class ProductCategoryApplication:IProductPitureApplication
     {
 
         private readonly IProductCategoryRepository _productCategoryRepository;
@@ -19,7 +19,7 @@ namespace ShopManagement.Application
            
             var operation= new OperationResult();
             if (_productCategoryRepository.Exists(x=> x.Name == command.Name))
-                return operation.Failed("امکان ثبت رکورد تکراری وجود ندارد.");
+                return operation.Failed(ApplicationMessage.DuplicatedRecord);
 
             var slug = command.Slug.slugify();
 
@@ -43,13 +43,13 @@ namespace ShopManagement.Application
 
             if (productCategory == null)
             {
-                return operation.Failed("کاربری با اطلاعات درخواست شده یافت نشد.");
+                return operation.Failed(ApplicationMessage.RecordNotFound);
 
             }
 
             if (_productCategoryRepository.Exists(x => x.Name == command.Name && x.Id != command.Id))
             {
-                return operation.Failed("امکان ثبت رکورد تکراری وجود ندارد.");
+                return operation.Failed(ApplicationMessage.DuplicatedRecord);
             }
         
 
@@ -71,6 +71,11 @@ namespace ShopManagement.Application
 
             return _productCategoryRepository.GetDetails(id);
 
+        }
+
+        public List<ProductCategoryViewModel> GetProductCategories()
+        {
+          return _productCategoryRepository.GetProductCategories();
         }
 
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel)

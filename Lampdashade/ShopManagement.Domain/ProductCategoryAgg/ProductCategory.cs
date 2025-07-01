@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _0_Framework.Domain;
+using ShopManagement.Domain.ProductAgg;
 
 namespace ShopManagement.Domain.ProductCategoryAgg
 {
@@ -19,6 +20,12 @@ namespace ShopManagement.Domain.ProductCategoryAgg
         public string Keywords { get; private set; }
         public string MetaDescription { get; private set; }
         public string Slug { get; private set; }
+        public List<Product> products { get; set; }
+
+        public ProductCategory()
+        {
+            products = new List<Product>();
+        }
 
         public ProductCategory(string name, string description, string picture, string pictureAlt, string pictureTitle, string keywords,
             string metaDescription, string slug)

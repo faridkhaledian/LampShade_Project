@@ -45,10 +45,10 @@ $(document).ready(function () {
         'form[data-ajax="true"]',
         function (e) {
             e.preventDefault();
-            var form = $(this);
-            const method = form.attr("method").toLocaleLowerCase();
-            const url = form.attr("action");
-            var action = form.attr("data-action");
+            var form = $(this); //go get this form 
+            const method = form.attr("method").toLocaleLowerCase(); //post
+            const url = form.attr("action"); //asp-page="./Index" asp-page-handler="Create" and go create page
+            var action = form.attr("data-action"); //Refresh
 
             if (method === "get") {
                 const data = form.serializeArray();
@@ -84,8 +84,8 @@ function CallBackHandler(data, action, form) {
         case "Message":
             alert(data.Message);
             break;
-        case "Refresh":
-            if (data.isSuccedded) {
+        case "Refresh": 
+            if (data.isSucceddd) {
                 window.location.reload();
             } else {
                 alert(data.message);
@@ -196,15 +196,15 @@ jQuery.validator.addMethod("maxFileSize",
     });
 jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
 
-//jQuery.validator.addMethod("maxFileSize",
-//    function (value, element, params) {
-//        var size = element.files[0].size;
-//        var maxSize = 3 * 1024 * 1024;
-//        debugger;
-//        if (size > maxSize)
-//            return false;
-//        else {
-//            return true;
-//        }
-//    });
-//jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+jQuery.validator.addMethod("maxFileSize",
+    function (value, element, params) {
+        var size = element.files[0].size;
+        var maxSize = 3 * 1024 * 1024;
+        debugger;
+        if (size > maxSize)
+            return false;
+        else {
+            return true;
+        }
+    });
+jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");

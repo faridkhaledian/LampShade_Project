@@ -113,48 +113,63 @@ Licensed under the MIT license.
 	// @param {number} width New width of the canvas, in pixels.
 	// @param {number} width New height of the canvas, in pixels.
 
-	Canvas.prototype.resize = function(width, height) {
 
-		if (width <= 0 || height <= 0) {
-			throw new Error("Invalid dimensions for plot, width = " + width + ", height = " + height);
-		}
 
-		var element = this.element,
-			context = this.context,
-			pixelRatio = this.pixelRatio;
 
-		// Resize the canvas, increasing its density based on the display's
-		// pixel ratio; basically giving it more pixels without increasing the
-		// size of its element, to take advantage of the fact that retina
-		// displays have that many more pixels in the same advertised space.
 
-		// Resizing should reset the state (excanvas seems to be buggy though)
+    Canvas.prototype.resize = function (width, height) {
+        // ????? ????? ????????
+        var validW = (typeof width === 'number' && width > 0);
+        var validH = (typeof height === 'number' && height > 0);
 
-		if (this.width != width) {
-			element.width = width * pixelRatio;
-			element.style.width = width + "px";
-			this.width = width;
-		}
+        if (!validW || !validH) {
+            // ??? ????? ??????? ???? ???? ??????? ???
+            var canvasEl = this.element;        // ???? <canvas>
+            var container = canvasEl.parentNode; // ??????? <div> ?????
 
-		if (this.height != height) {
-			element.height = height * pixelRatio;
-			element.style.height = height + "px";
-			this.height = height;
-		}
+            // ????? ????? ???????
+            var cw = container && container.clientWidth;
+            var ch = container && container.clientHeight;
 
-		// Save the context, so we can reset in case we get replotted.  The
-		// restore ensure that we're really back at the initial state, and
-		// should be safe even if we haven't saved the initial state yet.
+            // ??????? ?? ????? ??????? ?? ???????
+            // (????? 400×300? ??? ????????? ?????? ?????? ??? ?? ???? ????)
+            width = validW ? width : (cw > 0 ? cw : 400);
+            height = validH ? height : (ch > 0 ? ch : 300);
+        }
 
-		context.restore();
-		context.save();
+        // ?????? ???? ???? ??? resize
+        var element = this.element,
+            context = this.context,
+            pixelRatio = this.pixelRatio;
 
-		// Scale the coordinate space to match the display density; so even though we
-		// may have twice as many pixels, we still want lines and other drawing to
-		// appear at the same size; the extra pixels will just make them crisper.
+        // ??? ??? ????? ???? ???? ????? ??
+        if (this.width !== width) {
+            element.width = width * pixelRatio;
+            element.style.width = width + "px";
+            this.width = width;
+        }
+        // ??? ?????? ????? ???? ???? ????? ??
+        if (this.height !== height) {
+            element.height = height * pixelRatio;
+            element.style.height = height + "px";
+            this.height = height;
+        }
 
-		context.scale(pixelRatio, pixelRatio);
-	};
+        // ???????? ? ????? ????? ??????
+        context.restore();
+        context.save();
+
+        // ?????????? ???? ????? ?? ????? ?? ?????????? HiDPI
+        context.scale(pixelRatio, pixelRatio);
+    };
+
+
+
+
+
+
+
+
 
 	// Clears the entire canvas area, not including any overlaid HTML text
 
@@ -700,130 +715,251 @@ Licensed under the MIT license.
             }
         }
 
+
+
         function parseOptions(opts) {
+  // ??????????
+  var defaultFontSize = "13px";
+  var defaultFontStyle = "normal";
+  var defaultFontVariant = "normal";
+  var defaultFontWeight = "normal";
+  var defaultFontFamily = "sans-serif";
 
-            $.extend(true, options, opts);
+  // ????? ????????? ????? ?? ??????????
+  $.extend(true, options, opts);
 
-            // $.extend merges arrays, rather than replacing them.  When less
-            // colors are provided than the size of the default palette, we
-            // end up with those colors plus the remaining defaults, which is
-            // not expected behavior; avoid it by replacing them here.
+  // ??????
+  if (opts && opts.colors) {
+    options.colors = opts.colors;
+  }
 
-            if (opts && opts.colors) {
-            	options.colors = opts.colors;
-            }
+  // ????? ??? ?????? ? ???? ????
+  if (options.xaxis.color == null)
+    options.xaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+  if (options.yaxis.color == null)
+    options.yaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
 
-            if (options.xaxis.color == null)
-                options.xaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
-            if (options.yaxis.color == null)
-                options.yaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+  if (options.xaxis.tickColor == null)
+    options.xaxis.tickColor = options.grid.tickColor || options.xaxis.color;
+  if (options.yaxis.tickColor == null)
+    options.yaxis.tickColor = options.grid.tickColor || options.yaxis.color;
 
-            if (options.xaxis.tickColor == null) // grid.tickColor for back-compatibility
-                options.xaxis.tickColor = options.grid.tickColor || options.xaxis.color;
-            if (options.yaxis.tickColor == null) // grid.tickColor for back-compatibility
-                options.yaxis.tickColor = options.grid.tickColor || options.yaxis.color;
+  if (options.grid.borderColor == null)
+    options.grid.borderColor = options.grid.color;
+  if (options.grid.tickColor == null)
+    options.grid.tickColor = $.color.parse(options.grid.color).scale('a', 0.22).toString();
 
-            if (options.grid.borderColor == null)
-                options.grid.borderColor = options.grid.color;
-            if (options.grid.tickColor == null)
-                options.grid.tickColor = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+  // ????? placeholder ???? ??????? ????
+  var placeholderEl = $("#website-stats"); // ?? ?????? ????? ????
+  var hasPh = placeholderEl.length > 0;
+  var rawSize = hasPh ? placeholderEl.css("font-size") : defaultFontSize;
+  var rawStyle = hasPh ? placeholderEl.css("font-style") : defaultFontStyle;
+  var rawVariant = hasPh ? placeholderEl.css("font-variant") : defaultFontVariant;
+  var rawWeight = hasPh ? placeholderEl.css("font-weight") : defaultFontWeight;
+  var rawFamily = hasPh ? placeholderEl.css("font-family") : defaultFontFamily;
 
-            // Fill in defaults for axis options, including any unspecified
-            // font-spec fields, if a font-spec was provided.
+  // ????? ???? ???? ?? ???
+  var numericSize = parseInt((rawSize || defaultFontSize).replace(/px$/, ""), 10) || parseInt(defaultFontSize, 10);
+  var scaledSize = Math.round(0.8 * numericSize);
 
-            // If no x/y axis options were provided, create one of each anyway,
-            // since the rest of the code assumes that they exist.
+  // ??????? ????
+  var fontDefaults = {
+    style: rawStyle,
+    size: scaledSize,
+    variant: rawVariant,
+    weight: rawWeight,
+    family: rawFamily,
+    lineHeight: scaledSize * 1.15
+  };
 
-            var i, axisOptions, axisCount,
-                fontDefaults = {
-                    style: placeholder.css("font-style"),
-                    size: Math.round(0.8 * (+placeholder.css("font-size").replace("px", "") || 13)),
-                    variant: placeholder.css("font-variant"),
-                    weight: placeholder.css("font-weight"),
-                    family: placeholder.css("font-family")
-                };
+  // ??????? X
+  var axisCount = options.xaxes.length || 1;
+  for (var i = 0; i < axisCount; ++i) {
+    var axO = options.xaxes[i] || {};
+    if (!axO.tickColor) axO.tickColor = axO.color;
+    axO = $.extend(true, {}, options.xaxis, axO);
+    if (axO.font) {
+      axO.font = $.extend({}, fontDefaults, axO.font);
+      if (!axO.font.color) axO.font.color = axO.color;
+    }
+    options.xaxes[i] = axO;
+  }
 
-            fontDefaults.lineHeight = fontDefaults.size * 1.15;
+  // ??????? Y
+  axisCount = options.yaxes.length || 1;
+  for (i = 0; i < axisCount; ++i) {
+    var ayO = options.yaxes[i] || {};
+    if (!ayO.tickColor) ayO.tickColor = ayO.color;
+    ayO = $.extend(true, {}, options.yaxis, ayO);
+    if (ayO.font) {
+      ayO.font = $.extend({}, fontDefaults, ayO.font);
+      if (!ayO.font.color) ayO.font.color = ayO.color;
+    }
+    options.yaxes[i] = ayO;
+  }
 
-            axisCount = options.xaxes.length || 1;
-            for (i = 0; i < axisCount; ++i) {
+  // ???? ???????
+  if (options.xaxis.noTicks && options.xaxis.ticks == null)
+    options.xaxis.ticks = options.xaxis.noTicks;
+  if (options.yaxis.noTicks && options.yaxis.ticks == null)
+    options.yaxis.ticks = options.yaxis.noTicks;
+  if (options.x2axis)
+    options.xaxes[1] = $.extend(true, {}, options.xaxis, options.x2axis, { position: "top" });
+  if (options.y2axis)
+    options.yaxes[1] = $.extend(true, {}, options.yaxis, options.y2axis, { position: "right" });
 
-                axisOptions = options.xaxes[i];
-                if (axisOptions && !axisOptions.tickColor) {
-                    axisOptions.tickColor = axisOptions.color;
-                }
+  if (options.grid.coloredAreas)
+    options.grid.markings = options.grid.coloredAreas;
+  if (options.grid.coloredAreasColor)
+    options.grid.markingsColor = options.grid.coloredAreasColor;
 
-                axisOptions = $.extend(true, {}, options.xaxis, axisOptions);
-                options.xaxes[i] = axisOptions;
+  if (options.lines)
+    $.extend(true, options.series.lines, options.lines);
+  if (options.points)
+    $.extend(true, options.series.points, options.points);
+  if (options.bars)
+    $.extend(true, options.series.bars, options.bars);
+  if (options.shadowSize != null)
+    options.series.shadowSize = options.shadowSize;
+  if (options.highlightColor != null)
+    options.series.highlightColor = options.highlightColor;
 
-                if (axisOptions.font) {
-                    axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
-                    if (!axisOptions.font.color) {
-                        axisOptions.font.color = axisOptions.color;
-                    }
-                }
-            }
+  // ?????? Optionen ?? ??????
+  for (i = 0; i < options.xaxes.length; ++i)
+    getOrCreateAxis(xaxes, i + 1).options = options.xaxes[i];
+  for (i = 0; i < options.yaxes.length; ++i)
+    getOrCreateAxis(yaxes, i + 1).options = options.yaxes[i];
 
-            axisCount = options.yaxes.length || 1;
-            for (i = 0; i < axisCount; ++i) {
+  // ?????? ? ????
+  for (var n in hooks)
+    if (options.hooks[n] && options.hooks[n].length)
+      hooks[n] = hooks[n].concat(options.hooks[n]);
+  executeHooks(hooks.processOptions, [options]);
+}
 
-                axisOptions = options.yaxes[i];
-                if (axisOptions && !axisOptions.tickColor) {
-                    axisOptions.tickColor = axisOptions.color;
-                }
 
-                axisOptions = $.extend(true, {}, options.yaxis, axisOptions);
-                options.yaxes[i] = axisOptions;
 
-                if (axisOptions.font) {
-                    axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
-                    if (!axisOptions.font.color) {
-                        axisOptions.font.color = axisOptions.color;
-                    }
-                }
-            }
 
-            // backwards compatibility, to be removed in future
-            if (options.xaxis.noTicks && options.xaxis.ticks == null)
-                options.xaxis.ticks = options.xaxis.noTicks;
-            if (options.yaxis.noTicks && options.yaxis.ticks == null)
-                options.yaxis.ticks = options.yaxis.noTicks;
-            if (options.x2axis) {
-                options.xaxes[1] = $.extend(true, {}, options.xaxis, options.x2axis);
-                options.xaxes[1].position = "top";
-            }
-            if (options.y2axis) {
-                options.yaxes[1] = $.extend(true, {}, options.yaxis, options.y2axis);
-                options.yaxes[1].position = "right";
-            }
-            if (options.grid.coloredAreas)
-                options.grid.markings = options.grid.coloredAreas;
-            if (options.grid.coloredAreasColor)
-                options.grid.markingsColor = options.grid.coloredAreasColor;
-            if (options.lines)
-                $.extend(true, options.series.lines, options.lines);
-            if (options.points)
-                $.extend(true, options.series.points, options.points);
-            if (options.bars)
-                $.extend(true, options.series.bars, options.bars);
-            if (options.shadowSize != null)
-                options.series.shadowSize = options.shadowSize;
-            if (options.highlightColor != null)
-                options.series.highlightColor = options.highlightColor;
 
-            // save options on axes for future reference
-            for (i = 0; i < options.xaxes.length; ++i)
-                getOrCreateAxis(xaxes, i + 1).options = options.xaxes[i];
-            for (i = 0; i < options.yaxes.length; ++i)
-                getOrCreateAxis(yaxes, i + 1).options = options.yaxes[i];
 
-            // add hooks from options
-            for (var n in hooks)
-                if (options.hooks[n] && options.hooks[n].length)
-                    hooks[n] = hooks[n].concat(options.hooks[n]);
 
-            executeHooks(hooks.processOptions, [options]);
-        }
+
+
+
+
+
+
+   //     function parseOptions(opts) {
+
+   //         $.extend(true, options, opts);
+
+          
+   //         if (opts && opts.colors) {
+   //         	options.colors = opts.colors;
+   //         }
+
+   //         if (options.xaxis.color == null)
+   //             options.xaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+   //         if (options.yaxis.color == null)
+   //             options.yaxis.color = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+
+   //         if (options.xaxis.tickColor == null) // grid.tickColor for back-compatibility
+   //             options.xaxis.tickColor = options.grid.tickColor || options.xaxis.color;
+   //         if (options.yaxis.tickColor == null) // grid.tickColor for back-compatibility
+   //             options.yaxis.tickColor = options.grid.tickColor || options.yaxis.color;
+
+   //         if (options.grid.borderColor == null)
+   //             options.grid.borderColor = options.grid.color;
+   //         if (options.grid.tickColor == null)
+   //             options.grid.tickColor = $.color.parse(options.grid.color).scale('a', 0.22).toString();
+
+  
+   //         var i, axisOptions, axisCount,
+   //             fontDefaults = {
+   //                 style: placeholder.css("font-style"),
+   //                 size: Math.round(0.8 * (+placeholder.css("font-size").replace("px", "") || 13)),
+   //                 variant: placeholder.css("font-variant"),
+   //                 weight: placeholder.css("font-weight"),
+   //                 family: placeholder.css("font-family")
+   //             };
+
+   //         fontDefaults.lineHeight = fontDefaults.size * 1.15;
+
+   //         axisCount = options.xaxes.length || 1;
+   //         for (i = 0; i < axisCount; ++i) {
+
+   //             axisOptions = options.xaxes[i];
+   //             if (axisOptions && !axisOptions.tickColor) {
+   //                 axisOptions.tickColor = axisOptions.color;
+   //             }
+
+   //             axisOptions = $.extend(true, {}, options.xaxis, axisOptions);
+   //             options.xaxes[i] = axisOptions;
+
+   //             if (axisOptions.font) {
+   //                 axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
+   //                 if (!axisOptions.font.color) {
+   //                     axisOptions.font.color = axisOptions.color;
+   //                 }
+   //             }
+   //         }
+
+   //         axisCount = options.yaxes.length || 1;
+   //         for (i = 0; i < axisCount; ++i) {
+
+   //             axisOptions = options.yaxes[i];
+   //             if (axisOptions && !axisOptions.tickColor) {
+   //                 axisOptions.tickColor = axisOptions.color;
+   //             }
+
+   //             axisOptions = $.extend(true, {}, options.yaxis, axisOptions);
+   //             options.yaxes[i] = axisOptions;
+
+   //             if (axisOptions.font) {
+   //                 axisOptions.font = $.extend({}, fontDefaults, axisOptions.font);
+   //                 if (!axisOptions.font.color) {
+   //                     axisOptions.font.color = axisOptions.color;
+   //                 }
+   //             }
+   //         }
+
+   //         if (options.xaxis.noTicks && options.xaxis.ticks == null)
+   //             options.xaxis.ticks = options.xaxis.noTicks;
+   //         if (options.yaxis.noTicks && options.yaxis.ticks == null)
+   //             options.yaxis.ticks = options.yaxis.noTicks;
+   //         if (options.x2axis) {
+   //             options.xaxes[1] = $.extend(true, {}, options.xaxis, options.x2axis);
+   //             options.xaxes[1].position = "top";
+   //         }
+   //         if (options.y2axis) {
+   //             options.yaxes[1] = $.extend(true, {}, options.yaxis, options.y2axis);
+   //             options.yaxes[1].position = "right";
+   //         }
+   //         if (options.grid.coloredAreas)
+   //             options.grid.markings = options.grid.coloredAreas;
+   //         if (options.grid.coloredAreasColor)
+   //             options.grid.markingsColor = options.grid.coloredAreasColor;
+   //         if (options.lines)
+   //             $.extend(true, options.series.lines, options.lines);
+   //         if (options.points)
+   //             $.extend(true, options.series.points, options.points);
+   //         if (options.bars)
+   //             $.extend(true, options.series.bars, options.bars);
+   //         if (options.shadowSize != null)
+   //             options.series.shadowSize = options.shadowSize;
+   //         if (options.highlightColor != null)
+   //             options.series.highlightColor = options.highlightColor;
+
+   //         for (i = 0; i < options.xaxes.length; ++i)
+   //             getOrCreateAxis(xaxes, i + 1).options = options.xaxes[i];
+   //         for (i = 0; i < options.yaxes.length; ++i)
+   //             getOrCreateAxis(yaxes, i + 1).options = options.yaxes[i];
+   //for (var n in hooks)
+   //             if (options.hooks[n] && options.hooks[n].length)
+   //                 hooks[n] = hooks[n].concat(options.hooks[n]);
+
+   //         executeHooks(hooks.processOptions, [options]);
+   //     }
 
         function setData(d) {
             series = parseData(d);
