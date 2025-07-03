@@ -26,9 +26,7 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
         public EditProductCategory GetDetails(long id)
         {
             return _context.ProductCategories.Select(x => new EditProductCategory()
-            {
-
-                Id = x.Id,
+            {   Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Keywords = x.Keywords,
@@ -37,9 +35,7 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 Slug = x.Slug
-
-
-            }).FirstOrDefault(x => x.Id == id);
+               }).FirstOrDefault(x => x.Id == id);
 
 
 
@@ -61,7 +57,7 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
 
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel)
         {
-            var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel()
+            var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel
             {
                 Id = x.Id,
                 Picture = x.Picture,

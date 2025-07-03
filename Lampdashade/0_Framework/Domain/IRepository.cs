@@ -16,9 +16,5 @@ namespace _0_Framework.Domain
         void SaveChange();
 
 
-
-
-
-
     }
 }

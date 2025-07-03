@@ -4,7 +4,7 @@ using ShopManagement.Domain.ProductCategoryAgg;
 
 namespace ShopManagement.Application
 {
-    public class ProductCategoryApplication:IProductPitureApplication
+    public class ProductCategoryApplication: IProductCategoryApplication
     {
 
         private readonly IProductCategoryRepository _productCategoryRepository;
