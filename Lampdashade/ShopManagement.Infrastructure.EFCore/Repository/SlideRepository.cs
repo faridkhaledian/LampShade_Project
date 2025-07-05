@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _0_Framework.Application;
 using _0_Framework.Infrastructure;
 using ShopManagement.Application.Contracts.Slide;
 using ShopManagement.Domain.SlideAgg;
@@ -44,7 +45,7 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
         Picture=x.Picture,
         Title=x.Title,
         IsRemoved=x.IsRemoved,
-        CreationDate=x.CreationDate
+        CreationDate=x.CreationDate.ToFarsi()
         }).OrderByDescending(x=> x.Id).ToList();
         }
     }

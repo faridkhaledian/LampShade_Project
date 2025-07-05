@@ -83,7 +83,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="ShortDescription" class="control-label">توضیحات کوتاه</label>
-                    <input type="text" class="form-control" asp-for="ShortDescription">
+                <input type="text" class="form-control" asp-for="ShortDescription" onchange="fillField('ShortDescription', 'MetaDescription')">
                     <span asp-validation-for="ShortDescription" class="error"></span>
                 </div>
             </div>

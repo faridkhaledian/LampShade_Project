@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.Xml.Schema;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopManagement.Application.Contracts.Product;
 using ShopManagement.Application.Contracts.ProductCategory;
-using ShopManagement.Domain.ProductAgg;
-using ShopManagement.Domain.ProductCategoryAgg;
+
 
 namespace ServiceHost.Areas.Administration.Pages.Shop.Products
 {

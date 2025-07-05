@@ -22,6 +22,7 @@ SinglePage.LoadModal = function () {
 
 function showModal() {
     $("#MainModal").modal("show");
+
 }
 
 function hideModal() {
@@ -33,6 +34,7 @@ $(document).ready(function () {
         SinglePage.LoadModal();
     };
     $("#MainModal").on("shown.bs.modal",
+
         function () {
             window.location.hash = "##";
             $('.persianDateInput').persianDatepicker({
