@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscountManagement.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(DiscountContext))]
-    [Migration("20250703210032_EditReasonInCustomerDiscount")]
-    partial class EditReasonInCustomerDiscount
+    [Migration("20250705142102_EditReasonToMaxLength")]
+    partial class EditReasonToMaxLength
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,14 +47,15 @@ namespace DiscountManagement.Infrastructure.EFCore.Migrations
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerDiscounts");
+                    b.ToTable("CustomerDiscounts", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -44,14 +44,15 @@ namespace DiscountManagement.Infrastructure.EFCore.Migrations
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerDiscounts");
+                    b.ToTable("CustomerDiscounts", (string)null);
                 });
 #pragma warning restore 612, 618
         }
