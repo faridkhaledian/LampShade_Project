@@ -12,7 +12,7 @@ namespace DiscountManagement.Domain.ColleagueDiscountAgg
 
         public long ProductId { get;private set; }
         public int DiscountRate { get;private set; }
-        public bool IsRemoved { get; set; }
+        public bool IsRemoved { get; private set; }
 
         public ColleagueDiscount(long productId, int discountRate)
         {

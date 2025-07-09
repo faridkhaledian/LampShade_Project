@@ -27,7 +27,7 @@ namespace _01_LampshadeQuery.Query
                Picture= x.Picture,
                PictureAlt= x.PictureAlt,
                PictureTitle= x.PictureTitle,
-               Slug= x.Slug,
+               Slug= x.Slug
 
            } ).ToList();
 

@@ -29,7 +29,7 @@ namespace _01_LampshadeQuery.Query
                 Heading = x.Heading,
                 Link = x.Link,
                 Text = x.Text,
-                Title = x.Title,
+                Title = x.Title
 
             }).ToList();
         }
