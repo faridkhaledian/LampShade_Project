@@ -51,9 +51,6 @@ namespace ServiceHost.Areas.Administration.Pages.Shop.Products
         return new JsonResult(result);
         
         }
-
-
-
         public IActionResult OnGetEdit(long id)
         {
             var product = _productApplication.GetDetails(id);
@@ -68,37 +65,6 @@ namespace ServiceHost.Areas.Administration.Pages.Shop.Products
             return new JsonResult(result);
 
         }
-
-
-
-        //Handler NotInStock
-        public IActionResult OnGetNotInStock(long id) { 
-        var result = _productApplication.NotInStock(id);
-            if (result.IsSucceddd)
-            {
-                return RedirectToPage("./Index");
-
-            }
-                Message=result.Message;
-            return RedirectToPage("./Index");
-        }
-
-
-        //Handler IsInStock
-        public IActionResult OnGetIsInStock(long id) {
-            var result = _productApplication.IsStock(id);
-            if (result.IsSucceddd)
-            {
-                return RedirectToPage("./Index");
-
-            }
-
-            Message = result.Message;
-            return RedirectToPage("./Index");
-
-
-        }
-
 
     }
 }

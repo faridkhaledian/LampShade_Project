@@ -15,7 +15,7 @@ namespace InventoryManagement.Application
 
         public OperationResult Create(CreateInventory command)
         {
-        var operation = new OperationResult();
+            var operation = new OperationResult();
             if (_inventoryRepository.Exists(x => x.ProductId == command.ProductId))
                 return operation.Failed(ApplicationMessage.DuplicatedRecord);
 
@@ -44,6 +44,11 @@ namespace InventoryManagement.Application
         public EditInventory GetDetails(long id)
         {
            return _inventoryRepository.GetDetails(id);
+        }
+
+        public List<InventoryOperationViewModel> GetOperationLog(long inventoryId)
+        {
+          return _inventoryRepository.GetOperationLog(inventoryId);
         }
 
         public OperationResult Increase(IncreaseInventory command)
