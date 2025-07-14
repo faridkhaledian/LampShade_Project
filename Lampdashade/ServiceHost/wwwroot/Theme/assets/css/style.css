@@ -2239,7 +2239,7 @@ select {
 .single-grid-product__label span.sale {
 	right: 20px;
 	left: auto;
-	background-color: #292929;
+	background-color: red;
 }
 
 .single-grid-product__image {
@@ -2353,10 +2353,6 @@ select {
 
 .single-grid-product__title a:hover {
 	color: #e33;
-}
-
-.single-grid-product__price {
-	font-family: 'Karla', sans-serif;
 }
 
 .single-grid-product__price .main-price {
