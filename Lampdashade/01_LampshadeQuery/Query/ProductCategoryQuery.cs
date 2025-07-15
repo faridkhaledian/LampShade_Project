@@ -40,7 +40,7 @@ namespace _01_LampshadeQuery.Query
                 PictureTitle = x.PictureTitle,
                 Slug = x.Slug
 
-            }).ToList();
+            }).AsNoTracking().ToList();
 
         }
 
@@ -58,7 +58,7 @@ namespace _01_LampshadeQuery.Query
                 Id = x.Id,
                 Name = x.Name,
                 Products = MapProducts(x.products)
-            }).ToList();
+            }).AsNoTracking().ToList();
             foreach (var category in categories)
             {
 
@@ -78,17 +78,11 @@ namespace _01_LampshadeQuery.Query
                             product.HasDiscount = discountRate > 0;
                             var discountAmount = Math.Round((price * discountRate) / 100);
                             product.PriceWithDiscount = (price - discountAmount).ToMoney();
-
                         }
-                    }
-
-                   
+                    }                
                 }
-
             }
-
             return categories;
-
         }
 
         private static List<ProductQueryModel> MapProducts(List<Product> products)
@@ -104,7 +98,6 @@ namespace _01_LampshadeQuery.Query
                 PictureTitle = product.PictureTitle,
                 Slug = product.Slug
             }).ToList();
-
         }
 
         public ProductCategoryQueryModel GetProductCategoryWithProductsBy(string slug)
@@ -128,7 +121,7 @@ namespace _01_LampshadeQuery.Query
                 Keywords = x.Keywords,
                 Slug=x.Slug,
                 Products = MapProducts(x.products)
-            }).FirstOrDefault(x=> x.Slug == slug);
+            }).AsNoTracking().FirstOrDefault(x=> x.Slug == slug);
             
                 foreach (var product in category.Products)
                 {
@@ -150,16 +143,8 @@ namespace _01_LampshadeQuery.Query
 
                         }
                     }
-
-
                 }
-
-           
-
-            return category;
-
-
-
+          return category;
         }
     }
 }
