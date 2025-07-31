@@ -45,11 +45,5 @@ namespace ShopManagement.Configuration
             //Connect to the database with this connection string.
 
         }
-
-
-
-
-
-
     }
 }

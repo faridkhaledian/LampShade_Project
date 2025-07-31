@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _0_Framework.Domain;
+﻿using _0_Framework.Domain;
 using ShopManagement.Domain.ProductAgg;
 
 namespace ShopManagement.Domain.ProductPictureAgg
@@ -29,7 +24,9 @@ namespace ShopManagement.Domain.ProductPictureAgg
         public void Edit(long productId, string picture, string pictureAlt, string pictureTitle)
         {
             ProductId = productId;
-            Picture = picture;
+            if(!string.IsNullOrWhiteSpace(picture))
+                Picture = picture;
+            
             PictureAlt = pictureAlt;
             PictureTitle = pictureTitle;
         }
@@ -42,7 +39,5 @@ namespace ShopManagement.Domain.ProductPictureAgg
         {
             IsRemoved = false;
         }
-
-
     }
 }

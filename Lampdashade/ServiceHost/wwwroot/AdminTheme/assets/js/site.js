@@ -19,22 +19,17 @@ SinglePage.LoadModal = function () {
             alert("خطایی رخ داده، لطفا با مدیر سیستم تماس بگیرید.");
         });
 };
-
 function showModal() {
     $("#MainModal").modal("show");
-
 }
-
 function hideModal() {
     $("#MainModal").modal("hide");
 }
-
 $(document).ready(function () {
     window.onhashchange = function () {
         SinglePage.LoadModal();
     };
     $("#MainModal").on("shown.bs.modal",
-
         function () {
             window.location.hash = "##";
             $('.persianDateInput').persianDatepicker({
@@ -43,15 +38,16 @@ $(document).ready(function () {
             });
         });
 
+       
+
     $(document).on("submit",
         'form[data-ajax="true"]',
         function (e) {
             e.preventDefault();
-            var form = $(this); //go get this form 
-            const method = form.attr("method").toLocaleLowerCase(); //post
-            const url = form.attr("action"); //asp-page="./Index" asp-page-handler="Create" and go create page
-            var action = form.attr("data-action"); //Refresh
-
+            var form = $(this);
+            const method = form.attr("method").toLocaleLowerCase();
+            const url = form.attr("action");
+            var action = form.attr("data-action");
             if (method === "get") {
                 const data = form.serializeArray();
                 $.get(url,
@@ -70,6 +66,7 @@ $(document).ready(function () {
                     processData: false,
                     contentType: false,
                     success: function (data) {
+                        
                         CallBackHandler(data, action, form);
                     },
                     error: function (data) {
@@ -86,7 +83,7 @@ function CallBackHandler(data, action, form) {
         case "Message":
             alert(data.Message);
             break;
-        case "Refresh": 
+        case "Refresh":
             if (data.isSucceddd) {
                 window.location.reload();
             } else {
@@ -109,7 +106,7 @@ function CallBackHandler(data, action, form) {
             break;
         default:
     }
-}
+} 
 
 function get(url, refereshDiv) {
     const searchModel = window.location.search;
@@ -119,19 +116,16 @@ function get(url, refereshDiv) {
             $("#" + refereshDiv).html(result);
         });
 }
-
 function makeSlug(source, dist) {
     const value = $('#' + source).val();
     $('#' + dist).val(convertToSlug(value));
 }
-
 var convertToSlug = function (str) {
     var $slug = '';
     const trimmed = $.trim(str);
     $slug = trimmed.replace(/[^a-z0-9-آ-ی-]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     return $slug.toLowerCase();
 };
-
 function checkSlugDuplication(url, dist) {
     const slug = $('#' + dist).val();
     const id = convertToSlug(slug);
@@ -144,12 +138,10 @@ function checkSlugDuplication(url, dist) {
         }
     });
 }
-
 function fillField(source, dist) {
     const value = $('#' + source).val();
     $('#' + dist).val(value);
 }
-
 $(document).on("click",
     'button[data-ajax="true"]',
     function () {
@@ -186,27 +178,27 @@ function handleAjaxCall(method, url, data) {
     }
 }
 
-jQuery.validator.addMethod("maxFileSize",
-    function (value, element, params) {
-        var size = element.files[0].size;
-        var maxSize = 3 * 1024 * 1024;
-        if (size > maxSize)
-            return false;
-        else {
-            return true;
-        }
-    });
-jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+  jQuery.validator.addMethod("maxFileSize",
+      function (value, element, params) {
+          var size = element.files[0].size;
+          var maxSize = 3 * 1024 * 1024;
+          if (size > maxSize)
+              return false;
+          else {
+              return true;
+          }
+      });
+  jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+  
+  
+  const allowedImageFormats = ["jpg", "jpeg", "png"];
+  jQuery.validator.addMethod("FileExtentionLimitation", function (value, element) {
+      if (element.files.length === 0) return true; 
+      const fileName = element.files[0].name;
+      const fileExtension = fileName.split(".").pop().toLowerCase();
+      return allowedImageFormats.includes(fileExtension);
+  });
+  
+  jQuery.validator.unobtrusive.adapters.addBool("FileExtentionLimitation");
 
-jQuery.validator.addMethod("maxFileSize",
-    function (value, element, params) {
-        var size = element.files[0].size;
-        var maxSize = 3 * 1024 * 1024;
-        debugger;
-        if (size > maxSize)
-            return false;
-        else {
-            return true;
-        }
-    });
-jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+

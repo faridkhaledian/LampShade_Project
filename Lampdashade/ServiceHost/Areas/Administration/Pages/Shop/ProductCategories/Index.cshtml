@@ -7,7 +7,6 @@
     Layout = "Shared/_AdminLayout";
     ViewData["title"] = "مدیریت گروه محصولات";
 } 
-
 <div class="row">
     <div class="col-sm-12">
         <h4 class="page-title pull-right">@ViewData["title"]</h4>
@@ -16,7 +15,6 @@
         </p>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -36,7 +34,6 @@
         </div>
     </div>
 </div>
-
 <div class="row" id="ProductCategoriesDiv">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -56,15 +53,13 @@
                                     <th>عملیات</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            
-
+                            <tbody>                           
                             @foreach (var item in Model.ProductCategories)
                             {
                                 <tr>
                                     <td>@item.Id</td>
                                     <td>
-                                        <img src="@item.Picture" style="width: 70px; height: 70px"/>
+                                            <img src="~/ProductPictures/@item.Picture" style="width: 70px; height: 70px" />
                                     </td>
                                     <td>@item.Name</td>
                                     <td>@item.CreationDate</td>
@@ -73,14 +68,9 @@
                                            href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id })">
                                             <i class="fa fa-edit"></i> ویرایش
                                         </a>
-
-                                       
-
-
                                     </td>
                                 </tr>
                             }
-
                             </tbody>
                         </table>
                     </div>
@@ -89,14 +79,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
 @section Scripts {
     <script src="~/AdminTheme/assets/datatables/jquery.dataTables.min.js"></script>
 <script src="~/AdminTheme/assets/datatables/dataTables.bootstrap.js"></script>
@@ -106,4 +88,5 @@
             $('#datatable').dataTable();
         });
     </script>
+
 }

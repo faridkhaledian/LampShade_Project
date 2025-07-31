@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using _0_Framework.Domain;
+﻿using _0_Framework.Domain;
 using ShopManagement.Application.Contracts.ProductCategory;
 
 namespace ShopManagement.Domain.ProductCategoryAgg
@@ -14,7 +8,6 @@ namespace ShopManagement.Domain.ProductCategoryAgg
         List<ProductCategoryViewModel> GetProductCategories();
         EditProductCategory GetDetails(long id);
         List<ProductCategoryViewModel> Search(ProductCategorySearchModel search);
-
-
+        string GetSlugById(long id);
     }
 }

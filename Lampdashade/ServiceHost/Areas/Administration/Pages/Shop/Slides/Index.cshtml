@@ -2,12 +2,10 @@
 @model ServiceHost.Areas.Administration.Pages.Shop.Slides.IndexModel
 @{
 }
-
 @{
 	Layout = "Shared/_AdminLayout";
 	ViewData["title"] = "مدیریت اسلاید";
 }
-
 <div class="row">
 	<div class="col-sm-12">
 		<h4 class="page-title pull-right">@ViewData["title"]</h4>
@@ -16,10 +14,6 @@
 		</p>
 	</div>
 </div>
-
-
-
-
 <div class="row" >
 	<div class="col-md-12">
 		<div class="panel panel-default">
@@ -42,59 +36,45 @@
 								</tr>
 							</thead>
 							<tbody>
-
-
 								@foreach (var item in Model.Slides)
 								{
 									<tr>
 										<td>@item.Id</td>
 										<td>
-											<img src="@item.Picture" style="width: 70px; height: 70px" />
+											<img src="~/ProductPictures/@item.Picture" style="width: 70px; height: 70px" />
 										</td>
 										<td>@item.Heading</td>
 										<td>@item.Title</td>
 										<td class="text-center">
 											@if (!item.IsRemoved)
 											{
-												<i class="fa fa-check fa-3x text-success"></i>
-												
+												<i class="fa fa-check fa-3x text-success"></i>											
 											}
 											else
 											{
 												<i class="fa fa-remove fa-3x text-danger"></i>
 											}
-
 										</td>
-
 										<td>@item.CreationDate</td>
-										
-
 										<td>
 											<a class="btn btn-warning btn-custom waves-effect waves-light m-b-5"
 											   href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id })">
 												<i class="fa fa-edit"></i> ویرایش
 											</a>
-
 											@if (!item.IsRemoved)
 											{
 												<a asp-page="./Index" asp-page-handler="Remove"
-												   asp-route-id="@item.Id" class="btn btn-danger btn-custom waves-effect waves-light m-b-5"> حذف  </a>
-
-
+												   asp-route-id="@item.Id" class="btn btn-danger waves-effect waves-light m-b-5"> حذف  </a>
 											}
 											else
 											{
 												<a asp-page="./Index" asp-page-handler="Restore"
-												   asp-route-id="@item.Id" class="btn btn-success btn-custom waves-effect waves-light m-b-5"> فعال سازی  </a>
+												   asp-route-id="@item.Id" class="btn btn-success waves-effect waves-light m-b-5"> فعال سازی  </a>
 
 											}
-
-
-
 										</td>
 									</tr>
 								}
-
 							</tbody>
 						</table>
 					</div>
@@ -103,14 +83,6 @@
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
-
-
 @section Scripts {
 	<script src="~/AdminTheme/assets/datatables/jquery.dataTables.min.js"></script>
 	<script src="~/AdminTheme/assets/datatables/dataTables.bootstrap.js"></script>

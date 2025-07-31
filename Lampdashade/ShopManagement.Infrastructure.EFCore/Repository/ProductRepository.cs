@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _0_Framework.Application;
+﻿using _0_Framework.Application;
 using _0_Framework.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Application.Contracts.Product;
@@ -19,13 +14,10 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
         {
             _context = context;
         }
-
         public EditProduct GetDetails(long id)
         {
-
             return _context.Products.Select(x => new EditProduct
             {
-
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
@@ -34,29 +26,26 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
                 Description = x.Description,
                 KeyWords = x.KeyWords,
                 MetaDescription = x.MetaDescription,
-                Picture = x.Picture,
+                //Picture = x.Picture,
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 ShortDescription = x.ShortDescription,
             }).FirstOrDefault(x => x.Id == id);
-
-
-
         }
-
         public List<ProductViewModel> GetProducts()
         {
-            return _context.Products.Select(x=> new ProductViewModel {
-            
+            return _context.Products.Select(x=> new ProductViewModel {          
             Id = x.Id,
-            Name = x.Name,
-            
+            Name = x.Name,         
             }).ToList();
+        }
+        public Product GetProductWithCategory(long id)
+        {
+            return _context.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
         }
 
         public List<ProductViewModel> Search(ProductSearchModel searchModel)
         {
-
             var query = _context.Products
                .Include(x => x.Category)
                .Select(x => new ProductViewModel
@@ -69,9 +58,6 @@ namespace ShopManagement.Infrastructure.EFCore.Repository
                    Picture = x.Picture,
                    CreationDate = x.CreationDate.ToFarsi()
                });
-
-
-
             if (!string.IsNullOrWhiteSpace(searchModel.Name))
                 query = query.Where(x => x.Name.Contains(searchModel.Name));
 
