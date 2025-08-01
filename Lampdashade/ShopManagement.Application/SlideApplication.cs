@@ -14,14 +14,13 @@ namespace ShopManagement.Application
             _slideRepository = slideRepository;
             _fileUploader = fileUploader;
         }
-
         public OperationResult Create(CreateSlide command)
         {
             var operation = new OperationResult();
             var pictureName = _fileUploader.Upload(command.Picture , "slides");
 
-            var slide = new Slide(pictureName, command.PictureAlt,
-                command.PictureTitle, command.Heading, command.Title, command.Text, command.Link, command.BtnText);
+            var slide = new Slide(pictureName, command.PictureAlt, command.PictureTitle, 
+                command.Heading, command.Title, command.Text, command.Link, command.BtnText);
 
             _slideRepository.Create(slide);
             _slideRepository.SaveChange();
@@ -37,8 +36,8 @@ namespace ShopManagement.Application
 
             var pictureName = _fileUploader.Upload(command.Picture, "slides");
 
-            slide.Edit(pictureName, command.PictureAlt,
-                command.PictureTitle, command.Heading, command.Title, command.Text, command.Link, command.BtnText);
+            slide.Edit(pictureName, command.PictureAlt, command.PictureTitle, 
+                command.Heading, command.Title, command.Text, command.Link, command.BtnText);
 
             _slideRepository.SaveChange();
             return operation.Succedded();

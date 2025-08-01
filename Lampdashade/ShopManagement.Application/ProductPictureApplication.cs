@@ -25,7 +25,8 @@ namespace ShopManagement.Application
 
             var path = $"{product.Category.Slug}//{product.Slug}";
             var picturePath = _fileUploader.Upload(command.Picture,path);
-            var productPicture = new ProductPicture(command.ProductId, picturePath, command.PictureAlt, command.PictureTitle);
+            var productPicture = new ProductPicture(command.ProductId, picturePath,
+                command.PictureAlt, command.PictureTitle);
             _productPictureRepository.Create(productPicture);
             _productPictureRepository.SaveChange();
             return operation.Succedded();
@@ -40,7 +41,8 @@ namespace ShopManagement.Application
             var path = $"{productPicture.Product.Category.Slug}//{productPicture.Product.Slug}";
             var picturePath = _fileUploader.Upload(command.Picture, path);
 
-            productPicture.Edit(command.ProductId, picturePath, command.PictureAlt, command.PictureTitle);
+            productPicture.Edit(command.ProductId, picturePath, command.PictureAlt, 
+                command.PictureTitle);
             _productPictureRepository.SaveChange();
             return operation.Succedded();
         }
