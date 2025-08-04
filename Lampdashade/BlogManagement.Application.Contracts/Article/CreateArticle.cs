@@ -19,7 +19,7 @@ namespace BlogManagement.Application.Contracts.Article
 
         [MaxFileSize(3*1024*1024 ,ErrorMessage =ValidationMessages.MaxFileSize)  ]
         [FileExtentionLimitation(new string[] {"jpg","png","jpeg"} , ErrorMessage =ValidationMessages.InvalidFileFormat)]
-        public IFormFile Picture { get;  set; }
+        public IFormFile? Picture { get;  set; }
 
         [MaxLength(500, ErrorMessage = ValidationMessages.MaxLenght)]
         [Required(ErrorMessage = ValidationMessages.IsRequired)]

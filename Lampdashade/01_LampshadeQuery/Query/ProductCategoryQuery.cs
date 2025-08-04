@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using _0_Framework.Application;
 using _01_LampshadeQuery.Contracts.Product;
 using _01_LampshadeQuery.Contracts.ProductCategory;
 using DiscountManagement.Infrastructure.EFCore;
-using InventoryManagement.Domain.InventoryAgg;
 using InventoryManagement.Infrastructure.EfCore;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Domain.ProductAgg;
@@ -46,10 +42,7 @@ namespace _01_LampshadeQuery.Query
 
         public List<ProductCategoryQueryModel> GetProductCategoriesWithProducts()
         {
-            var inventory= _inventoryContext.Inventory.Select(x => new { x.ProductId, x.UnitPrice }).ToList();
-            
-
-            var discounts = _discountContext.CustomerDiscounts.
+            var inventory= _inventoryContext.Inventory.Select(x => new { x.ProductId, x.UnitPrice }).ToList();                var discounts = _discountContext.CustomerDiscounts.
                 Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now).
                 Select(x => new { x.DiscountRate, x.ProducId }).ToList();
          
@@ -84,12 +77,10 @@ namespace _01_LampshadeQuery.Query
             }
             return categories;
         }
-
         private static List<ProductQueryModel> MapProducts(List<Product> products)
         {
             return products.Select(product => new ProductQueryModel
             {
-
                 Id = product.Id,
                 Category = product.Category.Name,
                 Name = product.Name,
@@ -103,8 +94,6 @@ namespace _01_LampshadeQuery.Query
         public ProductCategoryQueryModel GetProductCategoryWithProductsBy(string slug)
         {
             var inventory = _inventoryContext.Inventory.Select(x => new { x.ProductId, x.UnitPrice }).ToList();
-
-
             var discounts = _discountContext.CustomerDiscounts.
                 Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now).
                 Select(x => new { x.DiscountRate, x.ProducId ,x.EndDate }).ToList();
@@ -136,7 +125,7 @@ namespace _01_LampshadeQuery.Query
                         {
                             int discountRate = discount.DiscountRate;
                             product.DiscountRate = discountRate;
-                        product.DiscountExpireDate=discount.EndDate.ToDiscountFormat();
+                            product.DiscountExpireDate=discount.EndDate.ToDiscountFormat();
                             product.HasDiscount = discountRate > 0;
                             var discountAmount = Math.Round((price * discountRate) / 100);
                             product.PriceWithDiscount = (price - discountAmount).ToMoney();

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using _01_LampshadeQuery.Contracts.Slide;
+using Microsoft.EntityFrameworkCore;
+using ShopManagement.Infrastructure.EFCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _01_LampshadeQuery.Contracts.Slide;
-using ShopManagement.Infrastructure.EFCore;
 
 namespace _01_LampshadeQuery.Query
 {
@@ -31,7 +32,7 @@ namespace _01_LampshadeQuery.Query
                 Text = x.Text,
                 Title = x.Title
 
-            }).ToList();
+            }).AsNoTracking().ToList();
         }
     }
 }

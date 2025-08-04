@@ -47,7 +47,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Picture" class="control-label">عکس</label>
-                    <input name="Picture" type="file" class="form-control" asp-for="Picture" accept="image/*">
+                    <input name="Picture" type="file" class="form-control" asp-for="Picture" accept="image/*" required>
                     <span asp-validation-for="Picture" class="error"></span>
                 </div>
             </div>
@@ -107,6 +107,7 @@
                     <span asp-validation-for="MetaDescription" class="error"></span>
                 </div>
             </div>
+             <input type="hidden" asp-for="Categories" value="Categories" />
         </div>
     </div>
     <div class="modal-footer">

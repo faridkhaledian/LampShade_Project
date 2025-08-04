@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol.Plugins;
 using ShopManagement.Application.Contracts.Product;
 using ShopManagement.Application.Contracts.ProductCategory;
 using System.Collections.Generic;
@@ -37,8 +38,15 @@ namespace ServiceHost.Areas.Administration.Pages.Shop.Products
         }
         public JsonResult OnPostCreate(CreateProduct command)
         {
-            var result = _productApplication.Create(command);
-            return new JsonResult(result);
+            if (ModelState.IsValid)
+            {
+                var result = _productApplication.Create(command);
+                return new JsonResult(result);
+            }
+            else
+            {
+                return new JsonResult("Error");
+            }
         }
         public IActionResult OnGetEdit(long id)
         {
@@ -47,9 +55,15 @@ namespace ServiceHost.Areas.Administration.Pages.Shop.Products
             return Partial("Edit", product);
         }
         public JsonResult OnPostEdit(EditProduct command)
-        {        
-            var result = _productApplication.Edit(command);
-            return new JsonResult(result);
+        {
+            if (ModelState.IsValid) {
+                var result = _productApplication.Edit(command);
+                return new JsonResult(result);
+            }
+            else
+            {
+                return new JsonResult("Error");
+            }
         }
     }
 }

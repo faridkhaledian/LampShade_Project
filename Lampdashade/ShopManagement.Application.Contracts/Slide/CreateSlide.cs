@@ -7,8 +7,8 @@ namespace ShopManagement.Application.Contracts.Slide
    public  class CreateSlide
     {
         [MaxFileSize(3*1024*1024 , ErrorMessage =ValidationMessages.MaxFileSize)]
-        [FileExtentionLimitation(new string[] {"","",""}, ErrorMessage =ValidationMessages.InvalidFileFormat)]
-        public IFormFile Picture { get;  set; }
+        [FileExtentionLimitation(new string[] {"jpg","png","jpeg"}, ErrorMessage =ValidationMessages.InvalidFileFormat)]
+        public IFormFile? Picture { get;  set; }
 
         [Required(ErrorMessage = ValidationMessages.IsRequired)]
         public string PictureAlt { get;  set; }

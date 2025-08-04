@@ -1,7 +1,6 @@
 ﻿using _0_Framework.Application;
 using _0_Framework.Infrastructure;
 using BlogManagement.Application.Contracts.Article;
-using BlogManagement.Application.Contracts.ArticleCategory;
 using BlogManagement.Domain.ArticleAgg;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +27,7 @@ namespace BlogManagement.Infrastructure.EfCore.Repository
             MetaDescription=x.MetaDescription,
             PictureAlt=x.PictureAlt,
             PictureTitle=x.PictureTitle,
-            PublishDate=x.PublishDate.ToString(),
+            PublishDate=x.PublishDate.ToFarsi(),
             ShortDescription=x.ShortDescription,
             Slug=x.Slug,
             Title=x.Title
@@ -49,8 +48,8 @@ namespace BlogManagement.Infrastructure.EfCore.Repository
                 Category = x.Category.Name,
                 Picture = x.Picture,
                 PublishDate = x.PublishDate.ToFarsi(),
-                ShortDescription= x.ShortDescription,
-                Title=x.Title
+                ShortDescription= x.ShortDescription.Substring(0, Math.Min(x.ShortDescription.Length, 50)) + " ...",
+                Title =x.Title
             });
 
             if(!string.IsNullOrWhiteSpace(searchModel.Title) )

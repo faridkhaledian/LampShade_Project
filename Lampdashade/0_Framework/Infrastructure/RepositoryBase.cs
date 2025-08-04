@@ -12,36 +12,26 @@ namespace _0_Framework.Infrastructure
         {
             _context = context;
         }
-
-
         public T Get(TKey id)
         {
             return _context.Find<T>(id);
-
         }
 
         public List<T> Get()
         {
           return _context.Set<T>().ToList();
-
         }
-
-
         public void Create(T entity)
         {
             _context.Add(entity);
-
         }
-
         public bool Exists( Expression< Func<T, bool>> expression )
         {
             return _context.Set<T>().Any(expression);
         }
-
         public void SaveChange()
         {
             _context.SaveChanges();
-
         }
     }
 }

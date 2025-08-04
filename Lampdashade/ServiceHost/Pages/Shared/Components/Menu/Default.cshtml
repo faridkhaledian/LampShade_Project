@@ -21,25 +21,23 @@
                                 <li class="menu-item-has-children">
                                     <a href="blog-left-sidebar.html">محصولات</a>
                                     <ul class="sub-menu">
-                                        <li>
-                                            <a href="blog-left-sidebar.html">دکوری</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-right-sidebar.html">نگهدارنده</a>
-                                        </li>
-                                       
+                                        @foreach (var category in Model.ProductCategories)
+                                        {
+                                            <li>
+                                                <a asp-page="./ProductCategory" asp-route-id="@category.Slug">@category.Name</a>
+                                            </li>
+                                        }
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children">
                                     <a href="blog-left-sidebar.html">مقالات</a>
                                     <ul class="sub-menu">
-                                        <li>
-                                            <a href="blog-left-sidebar.html">گروه اول</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog-right-sidebar.html">گروه دوم</a>
-                                        </li>
-                                       
+                                        @foreach (var category in Model.ArticleCategories)
+                                        {
+                                            <li>
+                                                <a asp-page="./ArticleCategory" asp-route-id="@category.Slug">@category.Name </a>
+                                            </li>
+                                        } 
                                     </ul>
                                 </li>
 
@@ -274,30 +272,26 @@
                     <li class="">
                         <a asp-page="/Index">صفحه اصلی</a>
                     </li>
-                   
-                    
                     <li class="menu-item-has-children">
                         <a href="#">محصولات</a>
                         <ul class="sub-menu">
-                            <li>
-                                <a href="blog-left-sidebar.html">نگهدارنده</a>
-                            </li>
-                            <li>
-                                <a href="blog-right-sidebar.html">چراغ مطالعه</a>
-                            </li>
-                           
+                            @foreach (var category in Model.ProductCategories)
+                            {
+                                <li>
+                                    <a asp-page="./ProductCategory" asp-route-id="@category.Slug">@category.Name</a>
+                                </li>
+                            }
                         </ul>
                     </li>
                     <li class="menu-item-has-children">
                         <a href="#">مقالات</a>
                         <ul class="sub-menu">
-                            <li>
-                                <a href="blog-left-sidebar.html">مقاله ۱</a>
-                            </li>
-                            <li>
-                                <a href="blog-right-sidebar.html">مقاله ۲ </a>
-                            </li>
-                           
+                            @foreach (var category in Model.ArticleCategories)
+                            {
+                                <li>
+                                    <a asp-page="./ArticleCategory" asp-route-id="@category.Slug">@category.Name </a>
+                                </li>
+                            }
                         </ul>
                     </li>
                     <li class="">

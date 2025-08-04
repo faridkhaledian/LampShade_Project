@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShopManagement.Application.Contracts.Slide;
+using System;
+using System.Collections.Generic;
 
 namespace ServiceHost.Areas.Administration.Pages.Shop.Slides
 {
@@ -21,48 +22,55 @@ namespace ServiceHost.Areas.Administration.Pages.Shop.Slides
         public void OnGet()
         {
             Slides = _slideApplication.GetList();
-        }   
+        }
 
-        public IActionResult OnGetCreate() {
-
+        public IActionResult OnGetCreate()
+        {
             var command = new CreateSlide();
-           
-            return Partial("./Create" ,command );
+            return Partial("./Create", command);
+        }
 
-            }
-
-        public JsonResult OnPostCreate(CreateSlide command) {
-            var result = _slideApplication.Create(command);
-        return new JsonResult(result);
-        
+        public JsonResult OnPostCreate(CreateSlide command)
+        {
+                var result = _slideApplication.Create(command);
+                return new JsonResult(result);
         }
         public IActionResult OnGetEdit(long id)
         {
             var slide = _slideApplication.GetDetails(id);
-            return Partial("Edit" , slide);
+            return Partial("Edit", slide);
         }
-         public JsonResult OnPostEdit(EditSlide command)
+        public JsonResult OnPostEdit(EditSlide command)
         {
-            var result = _slideApplication.Edit(command);
-            return new JsonResult(result);
+            if (ModelState.IsValid)
+            {
+                var result = _slideApplication.Edit(command);
+                return new JsonResult(result);
+            }
+            else
+            {
+                return new JsonResult("Error");
+            }
         }
-        public IActionResult OnGetRemove(long id) { 
+        public IActionResult OnGetRemove(long id)
+        {
 
-        var result = _slideApplication.Remove(id);
+            var result = _slideApplication.Remove(id);
             if (result.IsSucceddd)
             {
                 return RedirectToPage("./Index");
             }
-                Message=result.Message;
+            Message = result.Message;
             return RedirectToPage("./Index");
         }
-        public IActionResult OnGetRestore(long id) {
+        public IActionResult OnGetRestore(long id)
+        {
             var result = _slideApplication.Restore(id);
             if (result.IsSucceddd)
             {
                 return RedirectToPage("./Index");
             }
-           Message = result.Message;
+            Message = result.Message;
             return RedirectToPage("./Index");
         }
 
