@@ -37,6 +37,7 @@ namespace _01_LampshadeQuery.Query
                 {
                     Id = product.Id,
                     Category = product.Category.Name,
+                    CategorySlug= product.Category.Slug,
                     Name = product.Name,
                     Picture = product.Picture,
                     PictureAlt = product.PictureAlt,

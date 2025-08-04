@@ -1,6 +1,5 @@
 using _01_LampshadeQuery.Contracts.Product;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ServiceHost.Pages

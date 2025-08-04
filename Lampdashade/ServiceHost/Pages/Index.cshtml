@@ -2,21 +2,15 @@
 @model IndexModel
 
 @{
-    ViewData["Title"]="فروشگاه";
+    ViewData["Title"]="صفحه‌ی اصلی";
+    ViewData["metaDescription"] = "فروش لوازم خانگی و آشپزخانه با بهترین کیفیت";
+    ViewData["keywords"] = "دکوری، مبل، لوازم آشپزخانه، نگهدارنده";
 }
 
 @await Component.InvokeAsync("Slide")
-
-
-<!--====================  End of hero slider area  ====================-->
 @await Component.InvokeAsync("ProductCategory")
-<!--====================  single row slider tab ====================-->
-@await Component.InvokeAsync("ProductCategoryWithProduct");
-<!--====================  End of single row slider tab  ====================-->
-<!--====================  single row slider ====================-->
-@await Component.InvokeAsync("LatestArrivals");
-<!--====================  End of single row slider  ====================-->
-<!--====================  banner hover area ====================-->
+@await Component.InvokeAsync("ProductCategoryWithProduct")
+@await Component.InvokeAsync("LatestArrivals")
 <div class="banner-hover-area section-space">
     <div class="container">
         <div class="row">

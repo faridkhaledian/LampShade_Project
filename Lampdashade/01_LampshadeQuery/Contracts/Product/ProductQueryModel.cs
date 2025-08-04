@@ -14,6 +14,7 @@ namespace _01_LampshadeQuery.Contracts.Product
         public string PictureAlt { get; set; }
         public string PictureTitle { get; set; }
         public string Name { get; set; }
+        public double DoublePrice { get; set; }
         public string Code { get; set; }
         public string Price { get; set; }
         public string Description { get; set; }
@@ -27,6 +28,7 @@ namespace _01_LampshadeQuery.Contracts.Product
         public bool  HasDiscount { get; set; }
         public string DiscountExpireDate { get; set; }
         public string CategorySlug { get;  set; }
+        public bool IsInStock { get; set; }
         public List<ProductPictureQueryModel> Pictures { get; set; }
     }
 }

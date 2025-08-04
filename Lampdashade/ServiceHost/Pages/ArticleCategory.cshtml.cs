@@ -1,8 +1,5 @@
 using _01_LampshadeQuery.Contracts.Article;
 using _01_LampshadeQuery.Contracts.ArticleCategory;
-using _01_LampshadeQuery.Query;
-using BlogManagement.Domain.ArticleCategoryAgg;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
