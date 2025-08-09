@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace _01_LampshadeQuery.Contracts.Product
 {
@@ -29,6 +24,7 @@ namespace _01_LampshadeQuery.Contracts.Product
         public string DiscountExpireDate { get; set; }
         public string CategorySlug { get;  set; }
         public bool IsInStock { get; set; }
+        public List<CommentQueryModel> Comments { get; set; }
         public List<ProductPictureQueryModel> Pictures { get; set; }
     }
 }

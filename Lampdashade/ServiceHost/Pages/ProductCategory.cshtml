@@ -91,7 +91,7 @@
                                                             </div>
                                                         }
 
-                                                        <a href="single-product.html">
+                                                        <a asp-page="/Product" asp-route-id="@product.Slug">
                                                             <img src="~/ProductPictures/@product.Picture" class="img-fluid"
                                                             alt="@product.PictureAlt" title="@product.PictureTitle">
                                                             @* <img src="assets/img/products/1_1-600x800.jpg" class="img-fluid" *@
@@ -111,7 +111,7 @@
                                                     <div class="single-grid-product__content">
                                                         <div class="single-grid-product__category-rating">
                                                             <span class="category">
-                                                                <a asp-page="/ProductCategory" asp-route-id="@product.CategorySlug">@product.Category</a>
+                                                                <a asp-page="/ProductCategory" asp-route-id="@Model.ProductCategory.Slug">@Model.ProductCategory.Name</a>
                                                             </span>
                                                             <span class="rating">
                                                                 <i class="ion-android-star active"></i>
@@ -123,7 +123,7 @@
                                                         </div>
 
                                                         <h3 class="single-grid-product__title">
-                                                            <a asp-page="/ProductDetails"> @product.Name </a>
+                                                            <a asp-page="/Product" asp-route-id="@product.Slug">@product.Name</a>
                                                         </h3>
                                                         <p class="single-grid-product__price">
 
